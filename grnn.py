@@ -5,10 +5,10 @@ class GRNN :
 
     def __init__(self,x_train,y_train,x_test,y_test):
 
-        self.x_train= train_x
-        self.y_train= train_y
-        self.x_test= test_x
-        self.y_test= test_y
+        self.x_train= x_train
+        self.y_train= y_train
+        self.x_test= x_test
+        self.y_test= y_test
 
         self.std     = np.ones((1,self.y_train.size))#np.random.rand(1,self.train_y.size) #Standard deviations(std) are sometimes called RBF widths.
 
