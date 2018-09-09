@@ -16,7 +16,7 @@ class GRNN :
         
         return np.exp(- (distances**2) / 2*(self.std**2) )
 
-    def weight(self,i):
+    def output(self,i):#sometimes called weight
 
         distances=np.sum((self.x_test[i]-self.x_train)**2,axis=1)
 
@@ -24,11 +24,11 @@ class GRNN :
    
     def denominator(self,i):
 
-        return np.sum(self.weight(i))
+        return np.sum(self.output(i))
 
     def numerator(self,i): 
 
-        return  np.sum(self.weight(i) * self.y_train)
+        return  np.sum(self.output(i) * self.y_train)
     
     def predict(self):
 
@@ -56,14 +56,13 @@ test_y =np.array([7,5]).T
 model=GRNN(train_x,train_y,test_x,test_y)
 print('Sonuç :' ,model.predict())
 print('Std : ',model.std)
-print('Ağırlık(Birinci elamanın) :',model.weight(0))
-print('Ağırlık(İkinci elamanın) :',model.weight(1))
+print('Gizli Katmanın Çıktıları(Birinci elamanın) :',model.output(0))
+print('Gizli Katmanın Çıktıları(İkinci elamanın) :',model.output(1))
 print('MSE : ',model.mean_squared_error())
 '''
-C:\Users\Engin Bozaba>python "c:/Users/Engin Bozaba/Desktop/vs.py"
 Sonuç : [7. 5.]
 Std :  [[1. 1. 1. 1.]]
-Ağırlık(Birinci elamanın) : [[5.00796571e-159 1.11089965e-002 1.11089965e-002 5.00796571e-159]]
-Ağırlık(İkinci elamanın) : [[1.11089965e-002 1.11089965e-002 5.00796571e-159 0.00000000e+000]]
+Gizli Katmanın Çıktıları(Birinci elamanın) : [[5.00796571e-159 1.11089965e-002 1.11089965e-002 5.00796571e-159]]
+Gizli Katmanın Çıktıları(İkinci elamanın) : [[1.11089965e-002 1.11089965e-002 5.00796571e-159 0.00000000e+000]]
 MSE :  [0.00000000e+00 3.94430453e-31]
 '''
