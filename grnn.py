@@ -1,11 +1,6 @@
 import numpy as np
 import pandas as pd
 
-import numpy as np
-import pandas as pd
-
-import numpy as np
-import pandas as pd
 
 class GRNN :
 
@@ -25,7 +20,7 @@ class GRNN :
 
     def output(self,i):#sometimes called weight
 
-        distances=np.sum((self.x_train-self.x_test[i])**2,axis=1)**(1/2)
+        distances=np.sqrt(np.sum((self.x_train-self.x_test[i])**2,axis=1))
 
         return self.activation_func(distances)
    
