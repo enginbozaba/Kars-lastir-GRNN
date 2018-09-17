@@ -1,6 +1,12 @@
 import numpy as np
 import pandas as pd
 
+import numpy as np
+import pandas as pd
+
+import numpy as np
+import pandas as pd
+
 class GRNN :
 
     def __init__(self,x_train,y_train,x_test,y_test):
@@ -10,15 +16,16 @@ class GRNN :
         self.x_test= x_test
         self.y_test= y_test
 
-        self.std     = np.ones((1,self.y_train.size))#np.random.rand(1,self.train_y.size) #Standard deviations(std) are sometimes called RBF widths.
+        self.std     = np.full((1,self.y_train.size),1)#np.random.rand(1,self.train_y.size) #Standard deviations(std) are sometimes called RBF widths.
 
     def activation_func(self,distances):
+        
         
         return np.exp(- (distances**2) / 2*(self.std**2) )
 
     def output(self,i):#sometimes called weight
 
-        distances=np.sum((self.x_test[i]-self.x_train)**2,axis=1)
+        distances=np.sum((self.x_train-self.x_test[i])**2,axis=1)**(1/2)
 
         return self.activation_func(distances)
    
@@ -48,21 +55,22 @@ class GRNN :
 
         return np.sqrt(self.mean_squared_error())
     
-train_x = np.array([[1,2,3],[3,4,5],[5,6,7],[7,8,9]])
-train_y = np.array([4,6,8,10]).T
-test_x= np.array([[4,5,6],[2,3,4]])
-test_y =np.array([7,5]).T
+    
+train_X = np.array([[0,1],[0,0],[1,1]])
+train_y = np.array([1,0,0]).T
+test_X= np.array([[1,0]])
+test_y =np.array([1]).T
 
-model=GRNN(train_x,train_y,test_x,test_y)
+model=GRNN(train_X,train_y,test_X,test_y)
 print('Sonuç :' ,model.predict())
 print('Std : ',model.std)
 print('Gizli Katmanın Çıktıları(Birinci elamanın) :',model.output(0))
-print('Gizli Katmanın Çıktıları(İkinci elamanın) :',model.output(1))
+#print('Gizli Katmanın Çıktıları(İkinci elamanın) :',model.output(1))
 print('MSE : ',model.mean_squared_error())
+
 '''
-Sonuç : [7. 5.]
-Std :  [[1. 1. 1. 1.]]
-Gizli Katmanın Çıktıları(Birinci elamanın) : [[5.00796571e-159 1.11089965e-002 1.11089965e-002 5.00796571e-159]]
-Gizli Katmanın Çıktıları(İkinci elamanın) : [[1.11089965e-002 1.11089965e-002 5.00796571e-159 0.00000000e+000]]
-MSE :  [0.00000000e+00 3.94430453e-31]
+Sonuç : [0.23269654]
+Std :  [[1 1 1]]
+Gizli Katmanın Çıktıları(Birinci elamanın) : [[0.36787944 0.60653066 0.60653066]]
+MSE :  [0.5887546]
 '''
